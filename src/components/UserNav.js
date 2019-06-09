@@ -166,8 +166,8 @@ class UserNav extends Component{
             <Switch>
             <Route path="/" exact render={routeProps => <Home {...routeProps} propname={'p'}/>}></Route>
             <Route path="/stock" exact render={routeProps => <Stock {...routeProps} propname={'p'}/>}></Route>
-            <Route path="/sales" exact render={routeProps => <Sales {...routeProps} propname={'p'}/>}></Route>
             <Route path="/purchases" exact render={routeProps => <Purchases {...routeProps} propname={'p'}/>}></Route>
+            <Route path="/sales" exact render={routeProps => <Sales {...routeProps} propname={'p'}/>}></Route>
             <Route path="/users" exact render={routeProps => <Groups {...routeProps} propname={'p'}/>}></Route>
             <Route path="/reports" exact render={routeProps => <Reports {...routeProps} propname={'p'}/>}></Route>
             <Redirect from='*'  to='/'/>

@@ -9,6 +9,7 @@ import TableFooter from '@material-ui/core/TableFooter';
 import {Card, CardContent, Paper, IconButton} from '@material-ui/core';
 
 import EditIcon from '@material-ui/icons/Edit';
+import ReadIcon from '@material-ui/icons/Visibility';
 import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
@@ -73,9 +74,11 @@ export default class TableConsult extends Component{
                             <TableCell align='center'>
                                 <div>
                                 <IconButton onClick={()=>{this.handleEdit(row)}}>
-                                <EditIcon/>
+                                {this.props.isDetailView?(<ReadIcon/>):(<EditIcon/>)}
                                 </IconButton>
-                                <ConfirmDialog confirmTitle={this.props.confirmTitle} confirmMessage={this.props.confirmMessage} onConfirm={()=>this.props.handleRemove(row._id)}/>
+                                {this.props.handleRemove!=null &&
+                                    (<ConfirmDialog confirmTitle={this.props.confirmTitle} confirmMessage={this.props.confirmMessage} onConfirm={()=>this.props.handleRemove(row._id)}/>)
+                                }                                
                                 </div>
                             </TableCell>
                             </TableRow>

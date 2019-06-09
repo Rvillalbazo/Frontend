@@ -68,7 +68,65 @@ export default class EditDialog extends Component{
                   </Select>
                 </FormControl>
               )
-            }else{
+            }else if(this.props.fields[key].type==="Read"){
+              if(this.props.fields[key].isList){
+                return (
+                  <div>
+                    <hr/>
+                    <FormControl fullWidth>
+                      <table>
+                        {this.props.item[key].map(
+                          (item,index)=>{
+                            if(index>0){
+                              return;//Solo nos interesa obtener los encabezados 1 vez
+                            }else{
+                              return <tr align="center">
+                                {Object.keys(item).map(
+                                  property=>{
+                                    if(property != "_id"){
+                                      return <th>{property.toUpperCase()}</th>
+                                    }else{
+                                      return;
+                                    }
+                                  }
+                                )}<th>Subtotal</th>
+                              </tr>
+                            }
+
+                          }
+                        )}
+                        {this.props.item[key].map(item=>{
+                          return <tr align="center">{
+                            Object.keys(item).map(property=>{
+                              if(property != '_id'){
+                                return <td>{item[property]}</td>
+                              }else{
+                                return;
+                              }
+                            })
+                          }
+                          <td>{item.precio * item.cantidad - (item.descuento?(item.descuento):0)}</td>
+                          </tr>
+                        })}
+                      </table>
+                      <div style={{textAlign:"right"}}>
+                          <div>Total Parcial: <strong>$ {calcularPacial(this.props.item[key],(this.props.item['impuesto'] || 0))}</strong></div>
+                          <div>Total Impuesto: <strong></strong> {(this.props.item['impuesto'])}</div>
+                          <div>Total Neto: <strong>$ {sumarPrecios(this.props.item[key])} </strong></div>
+                      </div>
+                    </FormControl>
+                  </div>
+                )
+              }else{
+                return (<FormControl fullWidth>
+                  <div>
+                    <strong style={{margin:"3%"}}>{this.props.fields[key].as}</strong>
+                    <em>{this.props.item[key]}</em>
+                  </div>
+                </FormControl>)
+              }
+            }
+            else{
               return (<div>{this.props.item[key]}</div>)
             }
           })}
@@ -102,4 +160,16 @@ function defaultOrChangedData(updated,defaultData,fields){
   })
   itemToSend['_id'] = defaultData['_id'];
   return itemToSend;
+}
+
+function calcularPacial(arrItems,impuesto=0){
+  return truncar(sumarPrecios(arrItems) * (1-impuesto),2);
+}
+
+function sumarPrecios(arrItems){
+  return arrItems.reduce((p,c)=>{return p+(c.cantidad*c.precio-(c.descuento?c.descuento:0))},0);
+}
+
+function truncar(valor,decimales){
+  return parseFloat((valor+='').substring(0,valor.lastIndexOf('.')+decimales+1)) || 0;
 }
