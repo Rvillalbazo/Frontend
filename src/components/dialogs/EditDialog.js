@@ -131,7 +131,7 @@ export default class EditDialog extends Component{
             }
           })}
         </DialogContent>
-        <DialogActions>
+        {this.props.edit && <DialogActions>
           <Button onClick={this.props.handleClose} color="primary">
             Cancelar
           </Button>
@@ -143,7 +143,12 @@ export default class EditDialog extends Component{
           } color="primary">
             Modificar
           </Button>
-        </DialogActions>
+        </DialogActions>}
+        {!this.props.edit && <DialogActions>
+          <Button onClick={this.props.handleClose} color="primary">
+            Aceptar
+          </Button>
+        </DialogActions>}
       </Dialog>
     </div>
     )

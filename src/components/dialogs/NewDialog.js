@@ -102,7 +102,7 @@ export default class NewDialog extends Component{
               return (
                 <div>
                 <hr/>
-                Agregar Productos a Ingreso
+                {this.props.fields[key].discount?"Agregar Productos a Venta":"Agregar Productos a Ingreso"}
                 <FormControl fullWidth>
                   <Select
                     value={"default"}
@@ -131,7 +131,7 @@ export default class NewDialog extends Component{
                           label={"Articulo"}
                           value={el.articulo}
                           type="text"
-                          style = {{width:"40%"}}
+                          style = {{width:"35%"}}
                           onChange = {(ev)=>{/**Nothing*/}}
                         />
                         <TextField autoFocus margin="dense"
@@ -140,7 +140,7 @@ export default class NewDialog extends Component{
                           label={"Precio"}
                           defaultValue={el.precio}
                           type="number"
-                          style = {{width:"20%"}}
+                          style = {{width:"15%"}}
                           onChange = {(ev)=>{this.changeItemContent(key,i,'precio',ev.target.value)}}
                         />
                         <TextField autoFocus margin="dense"
@@ -152,11 +152,23 @@ export default class NewDialog extends Component{
                           style = {{width:"15%"}}
                           onChange = {(ev)=>{this.changeItemContent(key,i,'cantidad',ev.target.value)}}
                         />
+                        {this.props.fields[key].discount
+                        &&
+                        <TextField autoFocus margin="dense"
+                          id={el.id + "descuento"}
+                          key={el.id + "descuento"}
+                          label={"descuento"}
+                          defaultValue={0}
+                          type="number"
+                          style = {{width:"10%"}}
+                          onChange = {(ev)=>{this.changeItemContent(key,i,'descuento',ev.target.value)}}
+                        />
+                        }
                         <TextField readOnly margin="dense"
                           id={el.id + "subtotal"}
                           key={el.id + "subtotal"}
                           label={"Subtotal"}
-                          value={el.precio * el.cantidad}
+                          value={el.precio * el.cantidad - (el.descuento?el.descuento:0)}
                           type="number"
                           style = {{width:"10%",marginLeft:"5%"}}
                           onChange = {(ev)=>{/**Nothing*/}}
@@ -198,7 +210,7 @@ function calcularPacial(arrItems,impuesto){
 }
 
 function sumarPrecios(arrItems){
-  return arrItems.reduce((p,c)=>{return p+(c.cantidad*c.precio)},0);
+  return arrItems.reduce((p,c)=>{return p+(c.cantidad*c.precio-(c.descuento?c.descuento:0))},0);
 }
 
 function truncar(valor,decimales){
