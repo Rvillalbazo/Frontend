@@ -46,7 +46,15 @@ export default class EditDialog extends Component{
                 onChange={(ev)=>{this.valueChanges(key,ev.target.value)}}
                 fullWidth/>
               )
-            }else if(this.props.fields[key].type === "Select"){
+            }else if(this.props.fields[key].type === "Password"){
+              return (
+                <TextField autoFocus margin="dense" id={key} key={key} label={key.toLocaleUpperCase()} type="password" 
+                defaultValue={""}
+                onChange={(ev)=>{this.valueChanges(key,ev.target.value)}}
+                fullWidth/>
+              )
+            }
+            else if(this.props.fields[key].type === "Select"){
               let defaultIndex = this.props.fields[key].options.findIndex(el=>el.value == this.props.item[key]);
               console.log( this.props.fields[key].options[defaultIndex]);
               return(

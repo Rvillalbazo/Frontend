@@ -75,7 +75,18 @@ export default class NewDialog extends Component{
                 onChange={(ev)=>{this.valueChanges(key,ev.target.value)}}
                 fullWidth/>
               )
-            }else if(this.props.fields[key].type === "Select"){
+            }else if(this.props.fields[key].type === "Password"){
+              return (
+                <TextField autoFocus margin="dense" 
+                id={key} 
+                key={key} 
+                label={key.toLocaleUpperCase()} 
+                type="password"
+                onChange={(ev)=>{this.valueChanges(key,ev.target.value)}}
+                fullWidth/>
+              )
+            }
+            else if(this.props.fields[key].type === "Select"){
               return(
                 <FormControl fullWidth>
                   <InputLabel shrink htmlFor={'select'+key}>
